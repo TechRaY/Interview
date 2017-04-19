@@ -28,6 +28,34 @@ Seeing as the files are called *transript_x* and *script* I'll invent the follow
 ## My solution 
 To find the words that are most relevant to the brand we'll compare our script to call transcripts as well as to some other documents. 
 We use  [Latent Dirichlet allocation])(https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) which takes a collection of documents and 
-discovers the "topics" in each one. Each topic is a distribution over words, it can be interperted as  "How likely is word X when I speak about topic Y". 
+discovers the "topics" in each one. 
+### Getting our top n words and comparing to the full corpus
+Each topic is a distribution over words, it can be interperted as  "How likely is word X when I speak about topic Y". 
  In our story, this allows us to identify the most important words to our script while also comparing them to all of the words in the transcript. 
-![alt text](https://github.com/talolard/Interview/blob/master/images/top_n_words.png "The top words for our script")
+
+The 20 most significant words in our script are 
+>	food 	restaurant 	fast
+	**fast food** 	wine	world
+	country	people	year
+	culture	price	known
+	common	market	meal
+	include	service	type
+	local	served
+>
+
+Each of the documents we have is composed of a mixture of topics. The following chart shows how each document is "composed". Crucially, we have a distinct topic
+for our script and that is where the top words come from 
+
+![Topic distribution](https://github.com/talolard/Interview/blob/master/images/topics.png "The top words for our script")
+
+### Ranking our words : Finding words our sales staff should use more. 
+
+To find words that were relevant to the script but were not used enough in calls, I trained a TFIDF "vectorizer" on the transcripts only.
+ Applying it to our script generates a tfidf score per word, which is simply how frequently that word appears in our script divided by how
+ frequently it appears in the transcripts. Since the vectorizer was trained only on the transcripts, words that don't appear in the transcripts get 
+   a null score. Taking the negative log of the tfidf gives us a smoothed score. The score is high when the word is prominent in the transcripts but 
+    infrequent in the script, showing us which words are relevant to cusomters but are not frequently used. By ranking the top n words in our script
+    topic with this score we obtain a ranking of the words that are most important to us that we should use more. 
+    
+  
+![Words to use more](https://github.com/talolard/Interview/blob/master/images/top_n_words.png "Words we should use more")
