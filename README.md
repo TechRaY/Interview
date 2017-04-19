@@ -60,13 +60,14 @@ To find words that were relevant to the script but were not used enough in calls
   
 ![Words to use more](https://github.com/talolard/Interview/blob/master/images/top_n_words.png "Words we should use more")
 
-##Tricks and notes
+## Tricks and notes
 
 1. I trained the LDA and Vectorizer on individual sentances instead of the entire document. This increased the "document frequency" wheight of 
 each word which was important given the small number of documents
 2. The help the LDA model seperate topics I introduced extra documents to the training corpus. I added documents about 
 Algebraic topology and the Banch Tarsky paradox.
-3. To learn finer grained topics in our domain I added documents about Pizza and Wine. 
+3. To learn finer grained topics in our domain I added documents about Pizza and Wine.
+4. The code is set to use key words of up to 3 words (per the instructions) though only one bigram was significant at the end, **fast food** 
 
 # Using this
 
