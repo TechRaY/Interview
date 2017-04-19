@@ -27,7 +27,7 @@ Seeing as the files are called *transript_x* and *script* I'll invent the follow
 
 ## My solution 
 To find the words that are most relevant to the brand we'll compare our script to call transcripts as well as to some other documents. 
-We use  [Latent Dirichlet allocation])(https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) which takes a collection of documents and 
+We use  [Latent Dirichlet allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) which takes a collection of documents and 
 discovers the "topics" in each one. 
 ### Getting our top n words and comparing to the full corpus
 Each topic is a distribution over words, it can be interperted as  "How likely is word X when I speak about topic Y". 
@@ -46,7 +46,7 @@ The 20 most significant words in our script are
 Each of the documents we have is composed of a mixture of topics. The following chart shows how each document is "composed". Crucially, we have a distinct topic
 for our script and that is where the top words come from 
 
-![Topic distribution](https://github.com/talolard/Interview/blob/master/images/topics.png "The top words for our script")
+![Topic distribution](https://github.com/talolard/Interview/blob/master/images/topics.png "Topic breakdown by document")
 
 ### Ranking our words : Finding words our sales staff should use more. 
 
@@ -59,3 +59,45 @@ To find words that were relevant to the script but were not used enough in calls
     
   
 ![Words to use more](https://github.com/talolard/Interview/blob/master/images/top_n_words.png "Words we should use more")
+
+##Tricks and notes
+
+1. I trained the LDA and Vectorizer on individual sentances instead of the entire document. This increased the "document frequency" wheight of 
+each word which was important given the small number of documents
+2. The help the LDA model seperate topics I introduced extra documents to the training corpus. I added documents about 
+Algebraic topology and the Banch Tarsky paradox.
+3. To learn finer grained topics in our domain I added documents about Pizza and Wine. 
+
+# Using this
+
+## Installation. 
+Clone the repository
+
+```` 
+pip install -r requirements.txt
+````
+
+You may need to download NLTK corpuses. Open python in the terminal and run 
+
+````
+import nltk
+mltk.download()
+````
+
+To run with default settings
+```
+python main.py
+```
+
+## Adding a new corpus
+You can train on any script and transcriptions. To use a new data set: 
+1. Create a new directory where you wish to store the data
+2. Add a single script.txt file
+3. Add as many transcript_{}.txt files as you wish
+4. Optionally, add other .txt files 
+
+Then run
+ ```
+python main.py --data_dir=my_data_dir
+```
+
